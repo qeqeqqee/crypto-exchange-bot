@@ -8,7 +8,7 @@ import asyncio
 
 from config import TELEGRAM_BOT_TOKEN, SUPPORTED_PAIRS, EXCHANGE_COMMISSION
 from database import init_db, add_user, get_user_balance, add_transaction, get_user_transactions
-from binance_api import get_all_prices, calculate_exchange, validate_order, get_crypto_price, SUPPORTED_PAIRS as PAIRS
+from binance_api import get_all_prices, calculate_exchange, validate_order, get_crypto_price
 
 # Logging
 logging.basicConfig(level=logging.INFO)
@@ -59,7 +59,7 @@ async def cmd_start(message: types.Message):
     
     await message.answer(
         f"👋 Привет, {message.from_user.first_name}!\n\n"
-        f"Я бот для обмена рублей на криптовалюту через Binance.\n\n"
+        f"Я бот для обмена рублей на криптовалюту.\n\n"
         f"Мои основные функции:\n"
         f"💱 Обменять рубли на крипто\n"
         f"📊 Смотреть текущие курсы\n"
@@ -128,7 +128,7 @@ async def exchange_get_crypto(message: types.Message, state: FSMContext):
     amount_rub = data['amount_rub']
     
     # Получить цену
-    price = get_crypto_price(PAIRS[crypto])
+    price = get_crypto_price(crypto)
     if price is None:
         await message.answer("Не удалось получить цену. Попробуйте позже.")
         return
